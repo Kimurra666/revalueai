@@ -1,0 +1,144 @@
+@import "tailwindcss";
+
+/*
+ * ReValueAI design tokens.
+ * All colours, radii, spacing constants and type-scale live here.
+ * Components must use these tokens instead of one-off values.
+ */
+@theme {
+  /* ── Colour ──────────────────────────────────────────────────── */
+  --color-*: initial;
+  --color-white:         #ffffff;
+  --color-surface:       #f7f8f7;
+  --color-primary:       #2f6b4f;
+  --color-primary-dark:  #1f4d38;
+  --color-primary-tint:  #e6f0ea;
+  --color-ink:           #1f2933;
+  --color-muted:         #5b6770;
+  --color-line:          #dde3df;
+  --color-line-strong:   #b0bbb5;  /* passes WCAG 1.4.11 non-text contrast */
+  --color-danger:        #b3402f;
+  --color-warning:       #8c5a00;  /* darkened to pass WCAG AA on white */
+
+  /* ── Typography ──────────────────────────────────────────────── */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  --text-*: initial;
+  /* xs  13px  hint text, tags, secondary labels */
+  --text-xs:               0.8125rem;
+  --text-xs--line-height:  1.2rem;
+  /* sm  14px  captions, step labels */
+  --text-sm:               0.875rem;
+  --text-sm--line-height:  1.25rem;
+  /* md  15px  body copy */
+  --text-md:               0.9375rem;
+  --text-md--line-height:  1.5rem;
+  /* base 16px  inputs / selects (avoids iOS zoom) */
+  --text-base:             1rem;
+  --text-base--line-height: 1.5rem;
+  /* lg  18px  section headings */
+  --text-lg:               1.125rem;
+  --text-lg--line-height:  1.4rem;
+  /* xl  20px  sub-heading */
+  --text-xl:               1.25rem;
+  --text-xl--line-height:  1.5rem;
+  /* 2xl 24px  amounts */
+  --text-2xl:              1.5rem;
+  --text-2xl--line-height: 1.3rem;
+  /* 3xl 28px  page title */
+  --text-3xl:              1.75rem;
+  --text-3xl--line-height: 1.25rem;
+
+  /* ── Radii ───────────────────────────────────────────────────── */
+  --radius-*: initial;
+  --radius-sm:  6px;
+  --radius-md:  8px;
+
+  /* ── Shadows ─────────────────────────────────────────────────── */
+  --shadow-*: initial;
+  /* none — flat design, no box-shadows */
+
+  /* ── Animation ───────────────────────────────────────────────── */
+  --animate-fade-in: fade-in 180ms ease-out both;
+  --animate-spin:    spin 1s linear infinite;
+
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+}
+
+/* ── Base layer ──────────────────────────────────────────────────────────── */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    font-size: 16px;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-white font-sans text-md text-ink antialiased;
+    min-height: 100dvh;
+  }
+
+  h1 {
+    @apply text-3xl font-semibold leading-tight text-primary-dark;
+  }
+  h2 {
+    @apply text-lg font-semibold leading-snug text-primary-dark;
+  }
+  h3 {
+    @apply text-md font-semibold leading-snug text-ink;
+  }
+
+  /* Global focus ring — every interactive element gets it */
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+
+  /* Suppress the focus ring from StepHeading's programmatic focus */
+  [tabindex="-1"]:focus-visible {
+    outline: none;
+  }
+
+  input[type="checkbox"],
+  input[type="radio"] {
+    accent-color: var(--color-primary);
+  }
+
+  /* Tabular numbers for all monetary amounts */
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ── Reduced motion ──────────────────────────────────────────── */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ── Utility additions not in Tailwind 4 by default ─────────────────────── */
+@layer utilities {
+  .leading-tight  { line-height: 1.25; }
+  .leading-snug   { line-height: 1.375; }
+  .leading-normal { line-height: 1.5; }
+
+  /* The 44px touch-target minimum height for all interactive controls */
+  .h-control { height: 2.75rem; }   /* 44px */
+
+  /* Content-width containers */
+  .container-form { max-width: 45rem; }   /* ~720px */
+  .container-wide { max-width: 68.75rem; } /* ~1100px */
+}
